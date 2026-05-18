@@ -218,10 +218,10 @@ class TimePicker(tk.Toplevel):
                 pass
         self.destroy()
 
-class TimestampForgeApp:
+class TimestampEditorApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Windows File Timestamp Forge")
+        self.root.title("Timestamp-Editor")
         self.root.geometry("640x380")
         self.root.resizable(False, False)
         
@@ -396,5 +396,5 @@ class TimestampForgeApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = TimestampForgeApp(root)
+    app = TimestampEditorApp(root)
     root.mainloop()
