@@ -34,20 +34,17 @@ class SingleEditorTab(ttk.Frame):
         # Creation Time (ctime)
         ttk.Label(meta_frame, text="Creation Time:").grid(row=0, column=0, sticky=tk.W, pady=8)
         ttk.Entry(meta_frame, textvariable=self.ctime_var, width=30).grid(row=0, column=1, sticky=tk.EW, padx=15, pady=8)
-        ttk.Button(meta_frame, text="📅", width=3, command=lambda: self.pick_date(self.ctime_var)).grid(row=0, column=2, padx=(0, 5))
-        ttk.Button(meta_frame, text="⏰", width=3, command=lambda: self.pick_time(self.ctime_var)).grid(row=0, column=3, padx=(0, 10))
+        ttk.Button(meta_frame, text="📅 Edit...", command=lambda: self.pick_date_time(self.ctime_var)).grid(row=0, column=2, padx=(0, 10))
         
         # Modified Time (mtime)
         ttk.Label(meta_frame, text="Modified Time:").grid(row=1, column=0, sticky=tk.W, pady=8)
         ttk.Entry(meta_frame, textvariable=self.mtime_var, width=30).grid(row=1, column=1, sticky=tk.EW, padx=15, pady=8)
-        ttk.Button(meta_frame, text="📅", width=3, command=lambda: self.pick_date(self.mtime_var)).grid(row=1, column=2, padx=(0, 5))
-        ttk.Button(meta_frame, text="⏰", width=3, command=lambda: self.pick_time(self.mtime_var)).grid(row=1, column=3, padx=(0, 10))
+        ttk.Button(meta_frame, text="📅 Edit...", command=lambda: self.pick_date_time(self.mtime_var)).grid(row=1, column=2, padx=(0, 10))
         
         # Accessed Time (atime)
         ttk.Label(meta_frame, text="Accessed Time:").grid(row=2, column=0, sticky=tk.W, pady=8)
         ttk.Entry(meta_frame, textvariable=self.atime_var, width=30).grid(row=2, column=1, sticky=tk.EW, padx=15, pady=8)
-        ttk.Button(meta_frame, text="📅", width=3, command=lambda: self.pick_date(self.atime_var)).grid(row=2, column=2, padx=(0, 5))
-        ttk.Button(meta_frame, text="⏰", width=3, command=lambda: self.pick_time(self.atime_var)).grid(row=2, column=3, padx=(0, 10))
+        ttk.Button(meta_frame, text="📅 Edit...", command=lambda: self.pick_date_time(self.atime_var)).grid(row=2, column=2, padx=(0, 10))
         
         meta_frame.columnconfigure(1, weight=1)
         
@@ -81,43 +78,25 @@ class SingleEditorTab(ttk.Frame):
             messagebox.showerror("Metadata Extraction Error", f"Failed to read file metadata:\n{e}")
             self.save_btn.config(state=tk.DISABLED)
             
-    def pick_date(self, var):
-        """Opens the date picker dialog and updates the variable while keeping existing time."""
+    def pick_date_time(self, var):
+        """Opens date picker first, and upon date selection, immediately opens time picker."""
         current_str = var.get()
         current_date = None
-        current_time_str = "00-00-00"
+        current_time = None
         
-        # Attempt to parse existing value to retain the time component and current date
         try:
             dt = datetime.datetime.strptime(current_str, "%Y-%m-%d %H-%M-%S")
             current_date = dt.date()
-            current_time_str = dt.strftime("%H-%M-%S")
-        except ValueError:
-            pass # Use defaults if format is invalid
-            
-        def on_date_selected(date_obj):
-            var.set(f"{date_obj.strftime('%Y-%m-%d')} {current_time_str}")
-            
-        DatePicker(self.root_window, initial_date=current_date, on_date_selected=on_date_selected)
-        
-    def pick_time(self, var):
-        """Opens the time picker dialog and updates the variable while keeping existing date."""
-        current_str = var.get()
-        current_time = None
-        current_date_str = "1970-01-01"
-        
-        # Attempt to parse existing value to retain the date component
-        try:
-            dt = datetime.datetime.strptime(current_str, "%Y-%m-%d %H-%M-%S")
             current_time = dt.time()
-            current_date_str = dt.strftime("%Y-%m-%d")
         except ValueError:
             pass
             
-        def on_time_selected(time_obj):
-            var.set(f"{current_date_str} {time_obj.strftime('%H-%M-%S')}")
+        def on_date_selected(date_obj):
+            def on_time_selected(time_obj):
+                var.set(f"{date_obj.strftime('%Y-%m-%d')} {time_obj.strftime('%H-%M-%S')}")
+            TimePicker(self.root_window, initial_time=current_time, on_time_selected=on_time_selected)
             
-        TimePicker(self.root_window, initial_time=current_time, on_time_selected=on_time_selected)
+        DatePicker(self.root_window, initial_date=current_date, on_date_selected=on_date_selected)
         
     def save_metadata(self):
         """Parses UI timestamps and writes them directly back to the OS file handle."""

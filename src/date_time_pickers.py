@@ -3,12 +3,30 @@ import calendar
 import tkinter as tk
 from tkinter import ttk
 
+def center_toplevel(window, parent, width, height):
+    """Centers the toplevel window relative to its parent window or fallback to screen center."""
+    window.withdraw()
+    window.update_idletasks()
+    if parent and parent.winfo_ismapped():
+        parent_x = parent.winfo_rootx()
+        parent_y = parent.winfo_rooty()
+        parent_w = parent.winfo_width()
+        parent_h = parent.winfo_height()
+        x = parent_x + (parent_w - width) // 2
+        y = parent_y + (parent_h - height) // 2
+    else:
+        screen_width = window.winfo_screenwidth()
+        screen_height = window.winfo_screenheight()
+        x = (screen_width - width) // 2
+        y = (screen_height - height) // 2
+    window.geometry(f"{width}x{height}+{x}+{y}")
+    window.deiconify()
+
 class DatePicker(tk.Toplevel):
     """A native Tkinter Date Picker utility built using the built-in calendar module."""
     def __init__(self, parent, initial_date=None, on_date_selected=None):
         super().__init__(parent)
         self.title("Select Date")
-        self.geometry("260x220")
         self.resizable(False, False)
         
         # Make the dialog modal
@@ -26,6 +44,7 @@ class DatePicker(tk.Toplevel):
             self.current_month = now.month
             
         self.build_ui()
+        center_toplevel(self, parent, 260, 220)
         
     def build_ui(self):
         for widget in self.winfo_children():
@@ -78,7 +97,6 @@ class TimePicker(tk.Toplevel):
     def __init__(self, parent, initial_time=None, on_time_selected=None):
         super().__init__(parent)
         self.title("Select Time")
-        self.geometry("200x120")
         self.resizable(False, False)
         
         self.transient(parent)
@@ -97,6 +115,7 @@ class TimePicker(tk.Toplevel):
             self.current_second = now.second
             
         self.build_ui()
+        center_toplevel(self, parent, 200, 120)
         
     def build_ui(self):
         # Time Selection Frame

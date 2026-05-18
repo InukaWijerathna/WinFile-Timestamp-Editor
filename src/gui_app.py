@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk
 from single_editor_tab import SingleEditorTab
@@ -8,8 +9,24 @@ class TimestampEditorApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Timestamp-Editor")
-        self.root.geometry("680x440")
+        self.root.geometry("780x540")
         self.root.resizable(False, False)
+        
+        # Force Windows to associate the application window with our custom brand icon in the taskbar
+        try:
+            import ctypes
+            myappid = 'inukawijerathna.winfiletimestampeditor.forge.1.0'
+            ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+        except Exception:
+            pass
+            
+        # Load and set native application icon
+        try:
+            icon_path = os.path.join(os.path.dirname(__file__), "logo.ico")
+            if os.path.exists(icon_path):
+                self.root.iconbitmap(icon_path)
+        except Exception:
+            pass
         
         # Apply Windows 'vista' theme if available for a clean native look
         style = ttk.Style()
