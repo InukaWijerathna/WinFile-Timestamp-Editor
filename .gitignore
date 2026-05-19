@@ -1,0 +1,29 @@
+# ==========================================
+# Git Ignore Configuration
+# WinFile-Timestamp-Editor
+# ==========================================
+
+# PyInstaller & Packaging Artifacts
+build/
+dist/
+*.spec
+
+# Python Compilation Artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
