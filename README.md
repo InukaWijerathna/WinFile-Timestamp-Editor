@@ -1,5 +1,7 @@
 # WinFile-Timestamp-Editor
 
+[![Download WinFile-Timestamp-Editor v1.1.0](https://img.shields.io/badge/Download-WinFile--Timestamp--Editor%20v1.1.0-blue?style=for-the-badge&logo=windows&logoColor=white)](releases/winfile-timestamp-editor-v1.1.0.exe)
+
 A premium, lightweight, and native Windows desktop utility designed for system administrators, digital forensics research, automated build-system verification, and data caching testing. This tool allows users to view, modify, and completely forge low-level file system metadata properties—specifically **Creation Date (Birthtime)**, **Last Modified Date**, and **Last Accessed Date**—through a highly responsive and polished graphical user interface.
 
 Unlike high-level runtime libraries that restrict access to system attributes, this application bypasses standard framework layers by binding directly to the Windows OS kernel via the Win32 API.
@@ -76,6 +78,20 @@ Since the application relies exclusively on Python's built-in standard libraries
    ```bash
    python src/gui_app.py
    ```
+
+### 🛠️ Packaging & Distribution
+
+If you want to package the application as a standalone executable and generate a native Windows Installer:
+
+1. **Build Standalone Executable:**
+   Run the automatic compilation script at the root directory:
+   ```cmd
+   build.bat
+   ```
+   This will automatically install PyInstaller (if missing) and compile the application into a single executable located at `dist/WinFile-Timestamp-Editor.exe`.
+
+2. **Generate Windows Installer:**
+   Open and compile `installer.iss` using Inno Setup Compiler. This will output a professional installer package in the `dist` folder: `dist/WinFile-Timestamp-Editor-Setup.exe`.
 
 ---
 

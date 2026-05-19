@@ -15,14 +15,14 @@ class TimestampEditorApp:
         # Force Windows to associate the application window with our custom brand icon in the taskbar
         try:
             import ctypes
-            myappid = 'inukawijerathna.winfiletimestampeditor.forge.1.0'
+            myappid = 'inukawijerathna.winfiletimestampeditor.forge.1.1'
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
         except Exception:
             pass
             
         # Load and set native application icon
         try:
-            icon_path = os.path.join(os.path.dirname(__file__), "logo.ico")
+            icon_path = os.path.join(os.path.dirname(__file__), "assets", "logo.ico")
             if os.path.exists(icon_path):
                 self.root.iconbitmap(icon_path)
         except Exception:
@@ -36,6 +36,10 @@ class TimestampEditorApp:
         self.create_widgets()
         
     def create_widgets(self):
+        # Subtly integrated footer displaying the version aligned right
+        self.footer = ttk.Label(self.root, text="version 1.1", anchor=tk.E, foreground="gray")
+        self.footer.pack(side=tk.BOTTOM, fill=tk.X, padx=10, pady=(0, 2))
+        
         # Master Notebook Layout
         self.notebook = ttk.Notebook(self.root)
         self.notebook.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
