@@ -1,6 +1,6 @@
 # WinFile-Timestamp-Editor
 
-[![Download WinFile-Timestamp-Editor v1.1.0](https://img.shields.io/badge/Download-WinFile--Timestamp--Editor%20v1.1.0-blue?style=for-the-badge&logo=windows&logoColor=white)](releases/winfile-timestamp-editor-v1.1.0.exe)
+📥 **Download:** [WinFile-Timestamp-Editor v1.1.0](releases/winfile-timestamp-editor-v1.1.0.exe)
 
 A premium, lightweight, and native Windows desktop utility designed for system administrators, digital forensics research, automated build-system verification, and data caching testing. This tool allows users to view, modify, and completely forge low-level file system metadata properties—specifically **Creation Date (Birthtime)**, **Last Modified Date**, and **Last Accessed Date**—through a highly responsive and polished graphical user interface.
 
